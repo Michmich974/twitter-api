@@ -20,6 +20,14 @@ node {
 			sh "mvn package -DskipTests"
 		}
 	}
+	
+	stage('quality analysis') {
+		withSonarQubeEnv('Sonar') {
+			withMaven(maven: 'maven') {
+				sh "mvn sonar:sonar"
+			}
+		}
+	}
 
 	stage('Build Docker Image') {
 		withMaven(maven: 'maven') {
